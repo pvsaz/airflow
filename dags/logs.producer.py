@@ -1,8 +1,8 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from faker import Faker
 from confluent_kafka import Producer
 from airflow.sdk import Variable
-from faker import Faker
 import datetime
 import logging
 import boto3
