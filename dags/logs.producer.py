@@ -1,6 +1,7 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from confluent_kafka import Producer
+from airflow.sdk import Variable
 from faker import Faker
 import datetime
 import logging
@@ -61,9 +62,9 @@ def produce_logs(**context):
     """ Produce log entries into Kafka"""
     #secrets = get_secret('MWAA_Secrets_V2')
     secrets = dict()
-    secrets['KAFKA_BOOTSTRAP_SERVER'] = os.environ['KAFKA_BOOTSTRAP_SERVER']
-    secrets['KAFKA_SASL_PASSWORD'] = os.environ['KAFKA_SASL_PASSWORD']
-    secrets['KAFKA_SASL_USERNAME'] = os.environ['KAFKA_SASL_USERNAME']
+    secrets['KAFKA_BOOTSTRAP_SERVER'] = Variable.get('KAFKA_BOOTSTRAP_SERVER')
+    secrets['KAFKA_SASL_PASSWORD'] = Variable.get('KAFKA_SASL_PASSWORD')
+    secrets['KAFKA_SASL_USERNAME'] = Variable.get('KAFKA_SASL_USERNAME')
     kafka_config={
         'bootstrap.servers': secrets['KAFKA_BOOTSTRAP_SERVER'],
         'security.protocol': 'SASL_SSL',

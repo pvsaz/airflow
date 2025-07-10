@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from airflow import DAG
+from airflow.sdk import Variable
 from airflow.operators.python import PythonOperator
 from confluent_kafka import Consumer, KafkaException
 from elasticsearch import Elasticsearch
@@ -29,11 +30,11 @@ def parse_log_entry(log_entry):
 
 def consume_and_index_logs(**context):
     secrets = dict()
-    secrets['KAFKA_BOOTSTRAP_SERVER'] = os.environ['KAFKA_BOOTSTRAP_SERVER']
-    secrets['KAFKA_SASL_PASSWORD'] = os.environ['KAFKA_SASL_PASSWORD']
-    secrets['KAFKA_SASL_USERNAME'] = os.environ['KAFKA_SASL_USERNAME']
-    secrets['ELASTICSEARCH_URL'] = os.environ['ELASTICSEARCH_URL']
-    secrets['ELASTICSEARCH_API_KEY'] = os.environ['ELASTICSEARCH_API_KEY']
+    secrets['KAFKA_BOOTSTRAP_SERVER'] = Variable.get('KAFKA_BOOTSTRAP_SERVER')
+    secrets['KAFKA_SASL_PASSWORD'] = Variable.get('KAFKA_SASL_PASSWORD')
+    secrets['KAFKA_SASL_USERNAME'] = Variable.get('KAFKA_SASL_USERNAME')
+    secrets['ELASTICSEARCH_URL'] = Variable.get('ELASTICSEARCH_URL')
+    secrets['ELASTICSEARCH_API_KEY'] = Variable.get('ELASTICSEARCH_API_KEY')
  
     consumer_config={
         'bootstrap.servers': secrets['KAFKA_BOOTSTRAP_SERVER'],
