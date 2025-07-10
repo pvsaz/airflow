@@ -34,7 +34,7 @@ def consume_and_index_logs(**context):
     secrets['KAFKA_SASL_USERNAME'] = os.environ['KAFKA_SASL_USERNAME']
     secrets['ELASTICSEARCH_URL'] = os.environ['ELASTICSEARCH_URL']
     secrets['ELASTICSEARCH_API_KEY'] = os.environ['ELASTICSEARCH_API_KEY']
-
+ 
     consumer_config={
         'bootstrap.servers': secrets['KAFKA_BOOTSTRAP_SERVER'],
         'security.protocol': 'SASL_SSL',
