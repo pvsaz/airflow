@@ -5,7 +5,6 @@ from confluent_kafka import Producer
 from airflow.sdk import Variable
 import datetime
 import logging
-import boto3
 fake = Faker()
 logger = logging.getLogger(__name__)
 import random
@@ -47,16 +46,16 @@ def delivery_report(err, msg):
     else:
         logger.info(f'Message delivered to {msg.topic()} [{msg.partition()}]')
 
-def get_secret(secret_name, region_name='us-east-1'):
-    """Retrieve secrets from AWS secret manager"""
-    session = boto3.session.Session()
-    client = session.client(service_name = 'secretsmanager', region_name=region_name)
-    try:
-        response = client.get_secret_value(SecretId=secret_name)
-        return json.loads(response['SecretString'])
-    except Exception as e:
-        logger.error(f"Secret retrieval error: {e}")
-        raise
+# def get_secret(secret_name, region_name='us-east-1'):
+#     """Retrieve secrets from AWS secret manager"""
+#     session = boto3.session.Session()
+#     client = session.client(service_name = 'secretsmanager', region_name=region_name)
+#     try:
+#         response = client.get_secret_value(SecretId=secret_name)
+#         return json.loads(response['SecretString'])
+#     except Exception as e:
+#         logger.error(f"Secret retrieval error: {e}")
+#         raise
 
 def produce_logs(**context):
     """ Produce log entries into Kafka"""

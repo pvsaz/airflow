@@ -7,7 +7,6 @@ from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 import json
 import logging
-import boto3
 
 logger = logging.getLogger(__name__)
 
